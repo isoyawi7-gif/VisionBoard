@@ -1,120 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ISO YAWI VISION BOARD</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 *{
-margin:0;
-padding:0;
 box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
+font-family:Segoe UI,Arial;
 }
 
 body{
-background:linear-gradient(135deg,#020617,#1e3a8a,#0ea5e9);
+margin:0;
+padding:25px;
+background:linear-gradient(135deg,#020617,#1d4ed8,#06b6d4);
 min-height:100vh;
-padding:30px;
 color:white;
 }
 
-
-/* HEADER */
-
 header{
-
-background:rgba(255,255,255,0.15);
+background:rgba(255,255,255,.15);
 backdrop-filter:blur(15px);
 padding:25px;
-border-radius:25px;
-box-shadow:0 15px 40px rgba(0,0,0,.3);
-margin-bottom:30px;
-
-}
-
-
-.profile{
-
+border-radius:20px;
 display:flex;
 align-items:center;
-gap:30px;
-flex-wrap:wrap;
-
+gap:25px;
+box-shadow:0 10px 30px #0005;
 }
 
-
-.profile img{
-
-width:150px;
-height:150px;
+.profile{
+width:130px;
+height:130px;
 border-radius:50%;
 object-fit:cover;
 border:5px solid white;
-background:white;
-
 }
 
-
-.profile h1{
-
-font-size:42px;
-letter-spacing:2px;
-
+h1{
+font-size:40px;
+margin:0;
 }
 
-
-.profile p{
-
+p{
 font-size:18px;
-margin-top:10px;
-opacity:.8;
-
 }
 
+.btn{
 
-/* BUTTONS */
-
-
-.uploadBtn{
-
-display:inline-block;
 background:#facc15;
-color:#111827;
-padding:14px 25px;
-border-radius:12px;
+color:black;
+padding:12px 20px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-margin-top:15px;
-transition:.3s;
+display:inline-block;
+margin-top:10px;
 
 }
-
-
-.uploadBtn:hover{
-
-transform:scale(1.05);
-
-}
-
 
 input[type=file]{
-
 display:none;
-
 }
 
-
-/* BOARD */
 
 #board{
 
+margin-top:30px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:25px;
 
 }
@@ -127,8 +84,7 @@ color:black;
 border-radius:20px;
 overflow:hidden;
 position:relative;
-box-shadow:0 15px 35px rgba(0,0,0,.4);
-animation:show .5s;
+box-shadow:0 10px 25px #0007;
 
 }
 
@@ -136,39 +92,40 @@ animation:show .5s;
 .card img{
 
 width:100%;
-height:230px;
+height:220px;
 object-fit:cover;
 
 }
 
 
-.content{
+.card div{
 
-padding:20px;
+padding:15px;
 
 }
 
 
-.content input{
+.card input,
+.card textarea{
 
 width:100%;
-font-size:24px;
+border:none;
+outline:none;
+
+}
+
+
+.card input{
+
+font-size:22px;
 font-weight:bold;
-border:none;
-outline:none;
-margin-bottom:10px;
 
 }
 
 
-.content textarea{
+.card textarea{
 
-width:100%;
-height:100px;
-border:none;
-outline:none;
-resize:none;
-font-size:16px;
+height:80px;
 
 }
 
@@ -176,39 +133,21 @@ font-size:16px;
 .delete{
 
 position:absolute;
-right:15px;
-top:15px;
-
-width:40px;
-height:40px;
-
-border:none;
-border-radius:50%;
+right:10px;
+top:10px;
 
 background:red;
 color:white;
 
-font-size:22px;
+border:none;
+border-radius:50%;
+
+width:35px;
+height:35px;
+
 cursor:pointer;
 
-}
-
-
-@keyframes show{
-
-from{
-
-opacity:0;
-transform:translateY(30px);
-
-}
-
-to{
-
-opacity:1;
-transform:translateY(0);
-
-}
+font-size:20px;
 
 }
 
@@ -217,26 +156,6 @@ footer{
 
 text-align:center;
 margin-top:40px;
-opacity:.8;
-
-}
-
-
-@media(max-width:700px){
-
-.profile{
-
-flex-direction:column;
-text-align:center;
-
-}
-
-
-.profile h1{
-
-font-size:28px;
-
-}
 
 }
 
@@ -246,3 +165,240 @@ font-size:28px;
 
 
 <body>
+
+
+<header>
+
+<img id="photo" class="profile"
+src="https://via.placeholder.com/150">
+
+
+<div>
+
+<h1>🌟 ISO YAWI VISION BOARD</h1>
+
+<p>
+Dream Big • Believe • Build • Achieve
+</p>
+
+
+<label class="btn">
+
+📷 Upload My Photo
+
+<input type="file" id="profileUpload">
+
+</label>
+
+
+</div>
+
+</header>
+
+
+
+<br>
+
+
+<label class="btn">
+
+➕ Add Vision
+
+<input type="file" id="visionUpload">
+
+</label>
+
+
+<div id="board"></div>
+
+
+<footer>
+Made with Vision & Purpose
+</footer>
+
+
+
+<script>
+
+
+let board=document.getElementById("board");
+
+let visions=JSON.parse(localStorage.getItem("visions"))||[];
+
+
+function save(){
+
+localStorage.setItem(
+"visions",
+JSON.stringify(visions)
+);
+
+}
+
+
+
+function display(){
+
+board.innerHTML="";
+
+
+visions.forEach((v,i)=>{
+
+
+let card=document.createElement("div");
+
+card.className="card";
+
+
+card.innerHTML=`
+
+<button class="delete">×</button>
+
+<img src="${v.image}">
+
+<div>
+
+<input value="${v.title}"
+onchange="titleChange(${i},this.value)">
+
+
+<textarea
+onchange="descChange(${i},this.value)">
+${v.desc}</textarea>
+
+
+</div>
+
+`;
+
+
+card.querySelector(".delete").onclick=function(){
+
+visions.splice(i,1);
+
+save();
+
+display();
+
+};
+
+
+board.appendChild(card);
+
+
+});
+
+
+}
+
+
+
+function titleChange(i,value){
+
+visions[i].title=value;
+
+save();
+
+}
+
+
+
+function descChange(i,value){
+
+visions[i].desc=value;
+
+save();
+
+}
+
+
+
+document.getElementById("visionUpload")
+.onchange=function(e){
+
+
+let file=e.target.files[0];
+
+
+let reader=new FileReader();
+
+
+reader.onload=function(){
+
+
+visions.push({
+
+image:reader.result,
+
+title:"My Dream",
+
+desc:"Write your vision..."
+
+});
+
+
+save();
+
+display();
+
+
+};
+
+
+reader.readAsDataURL(file);
+
+
+};
+
+
+
+
+document.getElementById("profileUpload")
+.onchange=function(e){
+
+
+let file=e.target.files[0];
+
+
+let reader=new FileReader();
+
+
+reader.onload=function(){
+
+
+document.getElementById("photo").src=reader.result;
+
+
+localStorage.setItem(
+"profile",
+reader.result
+);
+
+
+};
+
+
+reader.readAsDataURL(file);
+
+
+};
+
+
+
+let old=localStorage.getItem("profile");
+
+if(old){
+
+document.getElementById("photo").src=old;
+
+}
+
+
+display();
+
+
+</script>
+
+
+</body>
+</html>
