@@ -207,6 +207,9 @@ Dream Big • Believe • Build • Achieve
 
 </label>
 
+<label class="btn" onclick="logout()">
+🚪 Logout
+</label>
 
 <div id="board"></div>
 
@@ -220,8 +223,16 @@ Made with Vision & Purpose
 <script>
 
 
-let board=document.getElementById("board");
+// LOGIN SECURITY
 
+if(localStorage.getItem("loggedIn")!=="true"){
+
+window.location.href="login.html";
+
+}
+
+
+let board=document.getElementById("board");
 let visions=JSON.parse(localStorage.getItem("visions"))||[];
 
 
@@ -395,7 +406,13 @@ document.getElementById("photo").src=old;
 
 display();
 
+function logout(){
 
+localStorage.removeItem("loggedIn");
+
+window.location.href="index.html";
+
+}
 </script>
 
 
