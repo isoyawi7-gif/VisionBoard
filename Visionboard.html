@@ -276,6 +276,11 @@ onchange="titleChange(${i},this.value)">
 onchange="descChange(${i},this.value)">
 ${v.desc}</textarea>
 
+<p style="margin-top:15px;color:#64748b;font-size:14px;">
+📅 Created:
+${v.date || "No date recorded"}
+</p>
+
 
 </div>
 
@@ -342,7 +347,9 @@ image:reader.result,
 
 title:"My Dream",
 
-desc:"Write your vision..."
+desc:"Write your vision...",
+
+date:new Date().toLocaleString()
 
 });
 
