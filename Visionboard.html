@@ -238,10 +238,7 @@ let visions=JSON.parse(localStorage.getItem("visions"))||[];
 
 function save(){
 
-localStorage.setItem(
-"visions",
-JSON.stringify(visions)
-);
+JSON.parse(localStorage.getItem("visions"))
 
 }
 
